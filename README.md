@@ -8,8 +8,10 @@ Project 5: Neighborhood Map
 Develop a single page application featuring a map of a neighborhood that I like to spend some time in Campinas, SP. Brazil. The application provies the functionality of highlighted locations, filter locations and uses Foursquare API to get some information about the location
 
 ### How to run the project
-* Demo site can be checked 
+* A live demo site can be checked [here](https://walternunes.github.io/FSDN-P5/index.html)
+
 or
+
 * Clone the repo using ```git clone https://github.com/walternunes/FSDN-P5.git```
 * Open the file ```index.html``` in your favorite Browser
 
