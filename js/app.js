@@ -96,7 +96,7 @@ function Marker(mark) {
 		self.category = response.categories[0] ? response.categories[0].name : "Not informed";
 	}).fail(function() {
 		self.category = "Not able to get data of forsquare API";
-		alert('Not able to fetch 4square API');
+		alert('Not able to load foursquare API');
 	});
 	
 	// Open locationInfowindow when a location is clicked from the locationList Menu
@@ -142,7 +142,7 @@ function Marker(mark) {
  
 /* Show an alert in case of Google Maps API error */
 function googleMapsError(){
-	alert('Not able to fetch Google Maps API');
+	alert('Not able to load Google Maps API');
 }
 	  
 	  
@@ -153,9 +153,14 @@ function populateInfoWindow(marker, data, infowindow) {
 	if (infowindow.marker != marker) {
 		infowindow.marker = marker;
 		var infoWindowContent = '<div><h4>' + marker.title + '</h4></div><div>' +
-		'<p class="category-info">('+ data.category + ')</p>' +
-		'<p class="location-info">'+ data.address + '</p>' +
-		'<p class="location-info">'+ data.city + '</p>';
+		'<p class="category-info">('+ data.category + ')</p>';
+		
+		if (data.address) {
+			infoWindowContent += '<p class="location-info">'+ data.address + '</p>';
+		}
+		if (data.city) {
+			infoWindowContent += '<p class="location-info">'+ data.city + '</p>';
+		}
 		if (data.phone) {
 			infoWindowContent += '<p class="location-info">'+ data.phone + '</p>';
 		}
