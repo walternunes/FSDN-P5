@@ -1,7 +1,7 @@
 /* keys API const variables  */
 const GOOGLE_KEY = "AIzaSyBaF09Sdp-WqlsQgCzE-SCeVv0RLYvzB-Q";
-const FOURSQUARE_CLIENT_ID = "DZLST0K0VKC4EAVMB3QOPM0DEDXBH0ILLAMKG0NRO5LPCPHR"
-const FOURSQUARE_CLIENT_SECRET = "BLSHILQWH3FUSXRQRHXSHKT1ADLGOHBL2ADL50CSKHMIRV5T"
+const FOURSQUARE_CLIENT_ID = "DZLST0K0VKC4EAVMB3QOPM0DEDXBH0ILLAMKG0NRO5LPCPHR";
+const FOURSQUARE_CLIENT_SECRET = "BLSHILQWH3FUSXRQRHXSHKT1ADLGOHBL2ADL50CSKHMIRV5T";
 
 /* Model */
 var locations = [
@@ -120,9 +120,9 @@ function ViewModel() {
 			self.city = response.location.formattedAddress[1];
 			
 			// Category is a list so it is necessary to check if it exists 
-			self.category = response.categories[0] ? response.categories[0].name : "Not informed"
+			self.category = response.categories[0] ? response.categories[0].name : "Not informed";
 		}).fail(function() {
-			self.category = "Not able to get data of forsquare API"
+			self.category = "Not able to get data of forsquare API";
 			window.console.log('Not able to fetch 4square API');
 		});
 		
@@ -147,7 +147,7 @@ function ViewModel() {
 			else {
 				marker.setMap(null);
 			}
-		}
+		};
 	  
 		// Create an onclick event to open an indowindow 
 		marker.addListener('click', function() {
@@ -207,9 +207,9 @@ function populateInfoWindow(marker, data, infowindow) {
 			infoWindowContent += '<p class="location-info">'+ data.phone + '</p>';
 		}
 		if (data.twitter) {
-			infoWindowContent += '<p class="location-info">Twitter: '+ data.twitter + '</p>'
+			infoWindowContent += '<p class="location-info">Twitter: '+ data.twitter + '</p>';
 		}
-		infoWindowContent += '</div><div id="pano"><img src="' + mountImageLocation(marker.position.lat(), marker.position.lng()) + '"></div>'
+		infoWindowContent += '</div><div id="pano"><img src="' + mountImageLocation(marker.position.lat(), marker.position.lng()) + '"></div>';
 		infowindow.setContent(infoWindowContent);
 		infowindow.open(map, marker);
 
@@ -246,8 +246,8 @@ function mount4SquareRequest(lat, lng, locationName){
 	var fourSquareURL = "https://api.foursquare.com/v2/venues/search?";
 	fourSquareURL += "v=20172017";
 	fourSquareURL += "&ll=" + lat + "," + lng;
-	fourSquareURL += "&intent=checkin"
-	fourSquareURL += "&search=" + locationName
+	fourSquareURL += "&intent=checkin";
+	fourSquareURL += "&search=" + locationName;
 	fourSquareURL += "&client_id=" + FOURSQUARE_CLIENT_ID;
 	fourSquareURL += "&client_secret=" + FOURSQUARE_CLIENT_SECRET;
 	return fourSquareURL;
