@@ -95,6 +95,7 @@ function ViewModel() {
 		this.city = "";
 		this.twitter = "";
 		
+		// Create bounds object
 		var bounds = new google.maps.LatLngBounds();
 		
 		// Style the default marker color
@@ -125,7 +126,7 @@ function ViewModel() {
 			window.console.log('Not able to fetch 4square API');
 		});
 		
-		// Open locationInfowindow when a location is clicked from the location list menu
+		// Open locationInfowindow when a location is clicked from the locationList Menu
 		// and also set a timeout to stop the bounce animation
 		this.clickInfo = function() {
 			map.setCenter(new google.maps.LatLng(self.location.lat, self.location.lng));
@@ -137,7 +138,7 @@ function ViewModel() {
 			}, 2500);	
 		};
 		
-		// Make the marker visible in the map
+		// Make the marker visible/invisible in the map
 		this.setVisible = function(isVisible) {
 			if(isVisible){
 				marker.setMap(map);
@@ -171,7 +172,7 @@ function ViewModel() {
 		this.locationMarkerList.push(new Marker(locations[i]));
 	}
 	
-	// Computed function that is responsible for return the remaining location items of the list that contains the (lowercase) String typed at the search box
+	// Computed function that is responsible for return the remaining location items of the list that contains the (lowercase) String typed in the search box
 	this.filterLocationList = ko.computed(function() {
 		var search = this.searchBox();
 		var locationFilter = [];
@@ -185,8 +186,14 @@ function ViewModel() {
 		return locationFilter;
 	}, this);
 }
-  
-/* This function populates the infowindow when the marker is clicked. Only one infowindow per time will be allowed */
+ 
+/* Show an alert in case of Google Maps API error */
+function googleMapsError(){
+	window.console.log('Not able to fetch Google Maps API');
+}
+	  
+	  
+/* This function populates the infowindow when the marker is clicked. Only one infowindow per time will be shown */
 function populateInfoWindow(marker, data, infowindow) {
 
 	// Validate if infowindow is not already opened on this marker.
@@ -216,7 +223,7 @@ function populateInfoWindow(marker, data, infowindow) {
 /* This function takes in a COLOR, and then creates a new marker icon of that color. */
 function makeMarkerIcon(markerColor) {
 	var markerImage = new google.maps.MarkerImage(
-		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+		'https://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
 		'|40|_|%E2%80%A2',
 		new google.maps.Size(21, 34),
 		new google.maps.Point(0, 0),
