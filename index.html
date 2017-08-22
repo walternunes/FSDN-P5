@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	  <link rel="stylesheet" href="css/styles.css">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">		
+  </head>
+  <body>
+    <div class="main">
+      <div class="options-box">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group">
+					<input id="search-box" type="text" placeholder="Search your favorite location!" class="form-control" data-bind="textInput: searchBox, valueUpdate: 'afterkeydown'">
+				</div>
+			</div>
+		</div>		
+		<div class="row"> 
+				<div class="col-xs-12">
+					<ul class="list-group" data-bind="foreach: filterLocationList">
+						<a class="list-group-item clearfix pointer" data-bind="visible: visible, click: clickInfo">
+							<div class="pull-left">
+								<h4 class="list-group-item-heading" data-bind="text: title"></h4>
+							</div>
+						</a>
+					</ul>
+			    </div>
+        </div>
+        <div id="map"></div>		
+		<div class="foursquare-box" >
+			<a href="https://foursquare.com">
+				<img class="foursquare-logo" src="./img/Foursquare_logo.jpg" alt="used with foursquare" >
+		   </a>
+		</div>
+		
+      </div>
+	</div>
+	<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="js/knockout-3.4.2.js"></script>
+    <script src="js/app.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaF09Sdp-WqlsQgCzE-SCeVv0RLYvzB-Q&v=3&callback=initMap"></script>
+  </body>
+</html>
