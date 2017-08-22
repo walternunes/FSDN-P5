@@ -58,8 +58,8 @@ function initMap() {
 	// Constructor creates a new map
 	map = new google.maps.Map(document.getElementById('map'), {
 	  center: {
-		  lat: 40.7413549, 
-		  lng: -73.9980244
+		  lat: -22.848944, 
+		  lng: -47.043810
 	  },
 	  zoom: 13,
 	  mapTypeControl: false
@@ -94,6 +94,8 @@ function ViewModel() {
 		this.phone = "";
 		this.city = "";
 		this.twitter = "";
+		
+		var bounds = new google.maps.LatLngBounds();
 		
 		// Style the default marker color
 		var defaultIcon = makeMarkerIcon('4267B2');
@@ -134,6 +136,17 @@ function ViewModel() {
 				marker.setAnimation(null);
 			}, 2500);	
 		};
+		
+		// Make the marker visible in the map
+		this.setVisible = function(isVisible) {
+			if(isVisible){
+				marker.setMap(map);
+				bounds.extend(self.location);
+			}
+			else {
+				marker.setMap(null);
+			}
+		}
 	  
 		// Create an onclick event to open an indowindow 
 		marker.addListener('click', function() {
@@ -148,10 +161,8 @@ function ViewModel() {
 			this.setIcon(defaultIcon);
 		});
 		
-		var bounds = new google.maps.LatLngBounds();
-		
-		marker.setMap(map);
-		bounds.extend(this.location);
+		// Initial marker status is always visible
+		this.setVisible(true);
 		
 	}
 	
@@ -166,7 +177,7 @@ function ViewModel() {
 		var locationFilter = [];
 		 ko.utils.arrayForEach(this.locationMarkerList, function(item) {
 			var isStrContained = item.title.toLowerCase().includes(search.toLowerCase());
-			item.visible = isStrContained;
+			item.setVisible(isStrContained);
 			if (isStrContained) {
                 locationFilter.push(item);
 			}
