@@ -96,7 +96,7 @@ function Marker(mark) {
 		self.category = response.categories[0] ? response.categories[0].name : "Not informed";
 	}).fail(function() {
 		self.category = "Not able to get data of forsquare API";
-		window.console.log('Not able to fetch 4square API');
+		alert('Not able to fetch 4square API');
 	});
 	
 	// Open locationInfowindow when a location is clicked from the locationList Menu
@@ -142,7 +142,7 @@ function Marker(mark) {
  
 /* Show an alert in case of Google Maps API error */
 function googleMapsError(){
-	window.console.log('Not able to fetch Google Maps API');
+	alert('Not able to fetch Google Maps API');
 }
 	  
 	  
