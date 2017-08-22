@@ -108,7 +108,7 @@ function Marker(mark) {
 		populateInfoWindow(marker, self, locationInfowindow);
 		setTimeout(function() {
 			marker.setAnimation(null);
-		}, 2500);	
+		}, 2100);	
 	};
 	
 	// Make the marker visible/invisible in the map
