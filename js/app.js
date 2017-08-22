@@ -1,4 +1,4 @@
-/* const variables related with keys API */
+/* keys API const variables  */
 const GOOGLE_KEY = "AIzaSyBaF09Sdp-WqlsQgCzE-SCeVv0RLYvzB-Q";
 const FOURSQUARE_CLIENT_ID = "DZLST0K0VKC4EAVMB3QOPM0DEDXBH0ILLAMKG0NRO5LPCPHR"
 const FOURSQUARE_CLIENT_SECRET = "BLSHILQWH3FUSXRQRHXSHKT1ADLGOHBL2ADL50CSKHMIRV5T"
@@ -155,7 +155,7 @@ function ViewModel() {
 		
 	}
 	
-	// Populate an Array of Markers that is used in location list menu
+	// Populate an Array with Markers for location list menu
     for (var i = 0; i < locations.length; i++) {
 		this.locationMarkerList.push(new Marker(locations[i]));
 	}
@@ -175,7 +175,7 @@ function ViewModel() {
 	}, this);
 }
   
-/* This function populates the infowindow when the marker is clicked. Only one open infowindow will be allowed */
+/* This function populates the infowindow when the marker is clicked. Only one infowindow per time will be allowed */
 function populateInfoWindow(marker, data, infowindow) {
 
 	// Validate if infowindow is not already opened on this marker.
