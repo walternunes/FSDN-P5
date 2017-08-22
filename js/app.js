@@ -3,52 +3,6 @@ const GOOGLE_KEY = "AIzaSyBaF09Sdp-WqlsQgCzE-SCeVv0RLYvzB-Q";
 const FOURSQUARE_CLIENT_ID = "DZLST0K0VKC4EAVMB3QOPM0DEDXBH0ILLAMKG0NRO5LPCPHR";
 const FOURSQUARE_CLIENT_SECRET = "BLSHILQWH3FUSXRQRHXSHKT1ADLGOHBL2ADL50CSKHMIRV5T";
 
-/* Model */
-var locations = [
-  {
-	  title: 'Shopping Dom Pedro', 
-	  location: {
-		  lat: -22.846102, 
-		  lng: -47.066203
-	  }
-  },
-  {
-	  title: 'PUC Campinas', 
-	  location: {
-		  lat: -22.834453,
-		  lng: -47.053106
-	  }
-  },
-  {
-	  title: 'O Matuto', 
-	  location: {
-		  lat: -22.863576, 
-		  lng: -47.043889
-	  }
-  },
-  {
-	  title: 'Opera 7', 
-	  location: {
-		  lat: -22.865288, 
-		  lng: -47.043224
-	  }
-  },
-  {
-	  title: 'Butequin', 
-	  location: {
-		  lat: -22.859578, 
-		  lng: -47.047029
-	  }
-  },
-  {
-	  title: 'Extreme', 
-	  location: {
-		  lat: -22.854991, 
-		  lng: -47.051609
-      }
-  }
-];
-
 var locationInfowindow;
 var map;
 
@@ -76,97 +30,6 @@ function ViewModel() {
 	this.searchBox = ko.observable("");
     this.locationMarkerList = [];
 	
-
-	/* Marker Object */
-	function Marker(mark) {
-
-		var self = this;
-		this.visible = true;
-		
-		// Google maps Marker attributes
-		this.location = mark.location;
-		this.title = mark.title;
-		this.animation = google.maps.Animation.DROP;
-		
-		// Attributes that will be loaded by 4square API
-		this.address = "";
-		this.category = "";
-		this.phone = "";
-		this.city = "";
-		this.twitter = "";
-		
-		// Create bounds object
-		var bounds = new google.maps.LatLngBounds();
-		
-		// Style the default marker color
-		var defaultIcon = makeMarkerIcon('4267B2');
-		// Style the marker color that will be changed when 'mouserover' event happens 
-		var highlightedIcon = makeMarkerIcon('107C10');
-			
-		// Create a marker
-		var marker = new google.maps.Marker({
-			position: this.location,
-			title: this.title,
-			animation: this.animation,
-			icon: defaultIcon
-		});
-		  
-		// get JSON request of foursquare data and fill the missing fields
-		$.getJSON(mount4SquareRequest(this.location.lat, this.location.lng, this.title)).done(function(data) {
-			var response = data.response.venues[0];
-			self.phone = response.contact.formattedPhone;
-			self.twitter = response.contact.twitter;
-			self.address = response.location.formattedAddress[0];
-			self.city = response.location.formattedAddress[1];
-			
-			// Category is a list so it is necessary to check if it exists 
-			self.category = response.categories[0] ? response.categories[0].name : "Not informed";
-		}).fail(function() {
-			self.category = "Not able to get data of forsquare API";
-			window.console.log('Not able to fetch 4square API');
-		});
-		
-		// Open locationInfowindow when a location is clicked from the locationList Menu
-		// and also set a timeout to stop the bounce animation
-		this.clickInfo = function() {
-			map.setCenter(new google.maps.LatLng(self.location.lat, self.location.lng));
-			map.setZoom(14);
-			marker.setAnimation(google.maps.Animation.BOUNCE);		
-			populateInfoWindow(marker, self, locationInfowindow);
-			setTimeout(function() {
-				marker.setAnimation(null);
-			}, 2500);	
-		};
-		
-		// Make the marker visible/invisible in the map
-		this.setVisible = function(isVisible) {
-			if(isVisible){
-				marker.setMap(map);
-				bounds.extend(self.location);
-			}
-			else {
-				marker.setMap(null);
-			}
-		};
-	  
-		// Create an onclick event to open an indowindow 
-		marker.addListener('click', function() {
-			self.clickInfo();
-		});
-		
-		// Two event listeners - one for mouseover, one for mouseout,
-		marker.addListener('mouseover', function() {
-			this.setIcon(highlightedIcon);
-		});
-		marker.addListener('mouseout', function() {
-			this.setIcon(defaultIcon);
-		});
-		
-		// Initial marker status is always visible
-		this.setVisible(true);
-		
-	}
-	
 	// Populate an Array with Markers for location list menu
     for (var i = 0; i < locations.length; i++) {
 		this.locationMarkerList.push(new Marker(locations[i]));
@@ -185,6 +48,96 @@ function ViewModel() {
 		});
 		return locationFilter;
 	}, this);
+}
+
+/* Marker Object */
+function Marker(mark) {
+
+	var self = this;
+	this.visible = true;
+	
+	// Google maps Marker attributes
+	this.location = mark.location;
+	this.title = mark.title;
+	this.animation = google.maps.Animation.DROP;
+	
+	// Attributes that will be loaded by 4square API
+	this.address = "";
+	this.category = "";
+	this.phone = "";
+	this.city = "";
+	this.twitter = "";
+	
+	// Create bounds object
+	var bounds = new google.maps.LatLngBounds();
+	
+	// Style the default marker color
+	var defaultIcon = makeMarkerIcon('4267B2');
+	// Style the marker color that will be changed when 'mouserover' event happens 
+	var highlightedIcon = makeMarkerIcon('107C10');
+		
+	// Create a marker
+	var marker = new google.maps.Marker({
+		position: this.location,
+		title: this.title,
+		animation: this.animation,
+		icon: defaultIcon
+	});
+	  
+	// get JSON request of foursquare data and fill the missing fields
+	$.getJSON(mount4SquareRequest(this.location.lat, this.location.lng, this.title)).done(function(data) {
+		var response = data.response.venues[0];
+		self.phone = response.contact.formattedPhone;
+		self.twitter = response.contact.twitter;
+		self.address = response.location.formattedAddress[0];
+		self.city = response.location.formattedAddress[1];
+		
+		// Category is a list so it is necessary to check if it exists 
+		self.category = response.categories[0] ? response.categories[0].name : "Not informed";
+	}).fail(function() {
+		self.category = "Not able to get data of forsquare API";
+		window.console.log('Not able to fetch 4square API');
+	});
+	
+	// Open locationInfowindow when a location is clicked from the locationList Menu
+	// and also set a timeout to stop the bounce animation
+	this.clickInfo = function() {
+		map.setCenter(new google.maps.LatLng(self.location.lat, self.location.lng));
+		map.setZoom(14);
+		marker.setAnimation(google.maps.Animation.BOUNCE);		
+		populateInfoWindow(marker, self, locationInfowindow);
+		setTimeout(function() {
+			marker.setAnimation(null);
+		}, 2500);	
+	};
+	
+	// Make the marker visible/invisible in the map
+	this.setVisible = function(isVisible) {
+		if(isVisible){
+			marker.setMap(map);
+			bounds.extend(self.location);
+		}
+		else {
+			marker.setMap(null);
+		}
+	};
+  
+	// Create an onclick event to open an indowindow 
+	marker.addListener('click', function() {
+		self.clickInfo();
+	});
+	
+	// Two event listeners - one for mouseover, one for mouseout,
+	marker.addListener('mouseover', function() {
+		this.setIcon(highlightedIcon);
+	});
+	marker.addListener('mouseout', function() {
+		this.setIcon(defaultIcon);
+	});
+	
+	// Initial marker status is always visible
+	this.setVisible(true);
+	
 }
  
 /* Show an alert in case of Google Maps API error */
